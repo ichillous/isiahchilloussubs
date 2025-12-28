@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { SignOut } from '@/utils/auth-helpers/server';
 import { handleRequest } from '@/utils/auth-helpers/client';
-import Logo from '@/components/icons/Logo';
 import { usePathname, useRouter } from 'next/navigation';
 import { getRedirectMethod } from '@/utils/auth-helpers/settings';
 import s from './Navbar.module.css';
@@ -12,39 +11,49 @@ interface NavlinksProps {
   user?: any;
 }
 
+const navItems = [
+  { href: '/work', label: 'Work' },
+  { href: '/software', label: 'Software' },
+  { href: '/film', label: 'Film' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' }
+];
+
 export default function Navlinks({ user }: NavlinksProps) {
   const router = getRedirectMethod() === 'client' ? useRouter() : null;
+  const pathname = usePathname();
 
   return (
-    <div className="relative flex flex-row justify-between py-4 align-center md:py-6">
-      <div className="flex items-center flex-1">
-        <Link href="/" className={s.logo} aria-label="Logo">
-          <Logo />
+    <div className="flex flex-wrap items-center justify-between gap-4 py-4 md:py-6">
+      <div className="flex items-center gap-3">
+        <Link href="/" className={s.wordmark}>
+          Isiah Chillous
         </Link>
-        <nav className="ml-6 space-x-2 lg:block">
-          <Link href="/" className={s.link}>
-            Pricing
-          </Link>
-          {user && (
-            <Link href="/account" className={s.link}>
-              Account
-            </Link>
-          )}
-        </nav>
+        <span className="hidden text-xs uppercase tracking-[0.2em] text-zinc-500 sm:inline">
+          Software Engineer / Filmmaker
+        </span>
       </div>
-      <div className="flex justify-end space-x-8">
-        {user ? (
-          <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
-            <input type="hidden" name="pathName" value={usePathname()} />
-            <button type="submit" className={s.link}>
-              Sign out
-            </button>
-          </form>
-        ) : (
-          <Link href="/signin" className={s.link}>
-            Sign In
+      <nav className="flex flex-wrap items-center gap-2">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href} className={s.link}>
+            {item.label}
           </Link>
-        )}
+        ))}
+      </nav>
+      <div className="flex items-center gap-3 text-sm">
+        {user ? (
+          <>
+            <Link href="/admin" className={s.link}>
+              Admin
+            </Link>
+            <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
+              <input type="hidden" name="pathName" value={pathname} />
+              <button type="submit" className={s.link}>
+                Sign out
+              </button>
+            </form>
+          </>
+        ) : null}
       </div>
     </div>
   );

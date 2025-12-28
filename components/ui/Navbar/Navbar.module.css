@@ -1,17 +1,25 @@
 .root {
-  @apply sticky top-0 bg-black z-40 transition-all duration-150 h-16 md:h-20;
+  @apply sticky top-0 z-40 h-16 md:h-20 bg-white/90 backdrop-blur border-b border-zinc-200;
 }
 
 .link {
-  @apply inline-flex items-center leading-6 font-medium transition ease-in-out duration-75 cursor-pointer text-zinc-200 rounded-md p-1;
+  @apply inline-flex items-center leading-6 font-medium transition ease-in-out duration-100 cursor-pointer text-zinc-600 rounded-md px-2 py-1;
 }
 
 .link:hover {
-  @apply text-zinc-100;
+  @apply text-zinc-900 -translate-y-0.5;
 }
 
 .link:focus {
-  @apply outline-none text-zinc-100 ring-2 ring-pink-500 ring-opacity-50;
+  @apply outline-none ring-2 ring-orange-500 ring-opacity-40;
+}
+
+.wordmark {
+  @apply font-mono text-zinc-900 text-base tracking-tight;
+}
+
+.accent {
+  @apply text-zinc-900 border border-zinc-900 rounded-md px-3 py-1 hover:bg-zinc-900 hover:text-white;
 }
 
 .logo {
