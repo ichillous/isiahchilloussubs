@@ -8,7 +8,7 @@ import { Database } from '@/types_db';
 export const createClient = (): SupabaseClient<Database> => {
   const cookieStore = cookies();
 
-  return createServerClient<Database>(
+  return (createServerClient<Database>(
     // Pass Supabase URL and anonymous key from the environment to the client
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -40,5 +40,5 @@ export const createClient = (): SupabaseClient<Database> => {
         }
       }
     }
-  ) as SupabaseClient<Database>;
+  ) as unknown as SupabaseClient<Database>);
 };
