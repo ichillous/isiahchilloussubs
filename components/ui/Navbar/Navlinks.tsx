@@ -20,7 +20,8 @@ const navItems = [
 ];
 
 export default function Navlinks({ user }: NavlinksProps) {
-  const router = getRedirectMethod() === 'client' ? useRouter() : null;
+  const router = useRouter();
+  const shouldClientRedirect = getRedirectMethod() === 'client';
   const pathname = usePathname();
 
   return (
@@ -46,7 +47,11 @@ export default function Navlinks({ user }: NavlinksProps) {
             <Link href="/admin" className={s.link}>
               Admin
             </Link>
-            <form onSubmit={(e) => handleRequest(e, SignOut, router)}>
+            <form
+              onSubmit={(e) =>
+                handleRequest(e, SignOut, shouldClientRedirect ? router : null)
+              }
+            >
               <input type="hidden" name="pathName" value={pathname} />
               <button type="submit" className={s.link}>
                 Sign out
